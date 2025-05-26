@@ -38,7 +38,7 @@ var (
 			config.UpdateConfigFromFlags(appConfig, dbURL, refreshInterval)
 
 			if appConfig.Database.URL == "" {
-				return fmt.Errorf("database URL is required. Set it via --db-url flag or RIVER_DB_URL environment variable")
+				return fmt.Errorf("database URL is required. Set it via --database-url flag or RIVER_DATABASE_URL environment variable")
 			}
 
 			appClient, err = client.New(cmd.Context(), appConfig)
@@ -59,7 +59,7 @@ var (
 )
 
 func init() {
-	rootCmd.PersistentFlags().StringVar(&dbURL, "db-url", "", "PostgreSQL connection string/URL (env: RIVER_DB_URL)")
+	rootCmd.PersistentFlags().StringVar(&dbURL, "database-url", "", "PostgreSQL connection string/URL (env: RIVER_DATABASE_URL)")
 	rootCmd.PersistentFlags().DurationVar(&refreshInterval, "refresh", 1*time.Second, "Refresh interval for the monitor")
 	rootCmd.PersistentFlags().Int64Var(&jobID, "job-id", 0, "Job ID to view details for (starts in details view if provided)")
 }

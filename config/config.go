@@ -18,7 +18,7 @@ func LoadConfig() (*Config, error) {
 	config := &Config{}
 
 	// Load database URL from environment
-	if dbURL := os.Getenv("RIVER_DB_URL"); dbURL != "" {
+	if dbURL := os.Getenv("RIVER_DATABASE_URL"); dbURL != "" {
 		config.Database.URL = dbURL
 	}
 

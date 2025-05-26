@@ -15,7 +15,7 @@ go install github.com/almottier/rivertui@latest
 ## Usage
 
 ```bash
-export RIVER_DB_URL="postgres://localhost:5432/myapp"
+export RIVER_DATABASE_URL="postgres://localhost:5432/myapp"
 rivertui
 ```
 
@@ -23,7 +23,7 @@ rivertui
 
 | Flag | Environment Variable | Description | Default |
 |------|---------------------|-------------|---------|
-| `--db-url` | `RIVER_DB_URL` | PostgreSQL connection string | Required |
+| `--database-url` | `RIVER_DATABASE_URL` | PostgreSQL connection string | Required |
 | `--refresh` | - | Refresh interval | `1s` |
 | `--job-id` | - | Start in details view for specific job ID | - |
 
@@ -31,16 +31,16 @@ rivertui
 
 ```bash
 # Basic usage
-rivertui --db-url "postgres://localhost:5432/myapp"
+rivertui --database-url "postgres://localhost:5432/myapp"
 
 # Custom refresh rate
-rivertui --db-url "postgres://localhost:5432/myapp" --refresh 2s
+rivertui --database-url "postgres://localhost:5432/myapp" --refresh 2s
 
 # Start viewing specific job
-rivertui --db-url "postgres://localhost:5432/myapp" --job-id 12345
+rivertui --database-url "postgres://localhost:5432/myapp" --job-id 12345
 
 # Using environment variable
-export RIVER_DB_URL="postgres://localhost:5432/myapp"
+export RIVER_DATABASE_URL="postgres://localhost:5432/myapp"
 rivertui
 ```
 

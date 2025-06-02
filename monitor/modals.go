@@ -25,6 +25,9 @@ func (m *MonitorApp) closeKindFilter() {
 
 // showConfirmationModal displays a confirmation modal with the given title, message, and callbacks
 func (m *MonitorApp) showConfirmationModal(title, message string, onYes, onNo func()) {
+	// Track the current page before showing the modal
+	m.lastActivePage, _ = m.ui.pages.GetFrontPage()
+
 	// Set the callbacks
 	m.modalState.Set(onYes, onNo)
 
@@ -45,11 +48,15 @@ func (m *MonitorApp) closeConfirmationModal() {
 	// Hide the modal and return to the appropriate page
 	m.ui.pages.HidePage(PageConfirmation)
 
-	// Determine which page to return to based on current context
-	if m.currentJobID != "" {
+	// Return to the page that was active before the confirmation modal
+	switch m.lastActivePage {
+	case PageQueues:
+		m.ui.pages.SwitchToPage(PageQueues)
+		m.ui.app.SetFocus(m.ui.queueList)
+	case PageDetails:
 		m.ui.pages.SwitchToPage(PageDetails)
 		m.ui.app.SetFocus(m.ui.jobDetails)
-	} else {
+	default:
 		m.ui.pages.SwitchToPage(PageList)
 		m.ui.app.SetFocus(m.ui.jobList)
 	}

@@ -52,7 +52,7 @@ rivertui
 - **Job details view** with full arguments, metadata, and error information
 - **Job operations**: retry and cancel jobs
 - **Pagination** for large job lists
-- **Queue management**: TODO
+- **Queue management**: view, pause, and resume queues
 - **Keyboard-driven navigation**
 
 ## Keyboard Shortcuts
@@ -62,10 +62,13 @@ rivertui
 | `Enter` | View job details |
 | `/` | Search by job kind or jump to job ID |
 | `0-7` | Filter by job state (0=All, 1=Completed, 2=Available, etc.) |
+| `Ctrl+Q` | View queues |
 | `r` | Retry selected job |
 | `c` | Cancel selected job |
 | `n` | Next page |
 | `p` | Previous page |
+| `p` | Pause selected queue |
+| `r` | Resume selected queue |
 | `q` | Quit |
 
 ## Requirements

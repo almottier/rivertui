@@ -30,6 +30,7 @@ const (
 	PageDetails      = "details"
 	PageKindFilter   = "kindFilter"
 	PageConfirmation = "confirmation"
+	PageQueues       = "queues"
 )
 
 // State filter configuration
@@ -171,6 +172,7 @@ type UIComponents struct {
 	pages             *tview.Pages
 	jobList           *tview.Table
 	jobDetails        *tview.TextView
+	queueList         *tview.Table
 	filterStatusBar   *tview.TextView
 	statusBar         *tview.TextView
 	kindFilterInput   *tview.InputField
@@ -186,6 +188,7 @@ func newUIComponents() *UIComponents {
 		pages:             tview.NewPages(),
 		jobList:           createJobListTable(),
 		jobDetails:        createJobDetailsView(),
+		queueList:         createQueueListTable(),
 		filterStatusBar:   createStatusBar(),
 		statusBar:         createStatusBar(),
 		kindFilterInput:   createKindFilterInput(),
@@ -237,6 +240,7 @@ type MonitorApp struct {
 	initialJobID      int64
 	lastJobKinds      []string
 	scrollToBeginning bool
+	lastActivePage    string
 }
 
 // NewMonitorApp creates a new monitor application

@@ -95,3 +95,19 @@ func createCenteredModal(component tview.Primitive, width, height int) *tview.Fl
 			AddItem(nil, 0, 1, false), height, 0, true).
 		AddItem(nil, 0, 1, false)
 }
+
+func createQueueListTable() *tview.Table {
+	table := tview.NewTable()
+	table.SetSelectable(true, false)
+	table.SetFixed(1, 0)
+	table.SetTitle(" 🔀 Queues ↑/↓")
+	table.SetBorder(true)
+	table.SetBorderPadding(0, 0, 1, 1)
+	table.SetBorderColor(ColorBorder)
+	table.SetTitleColor(ColorPrimary)
+	table.SetBackgroundColor(ColorBackground)
+	table.SetSelectedStyle(tcell.StyleDefault.
+		Background(tcell.NewRGBColor(30, 58, 138)).
+		Foreground(tcell.ColorWhite))
+	return table
+}

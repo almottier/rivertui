@@ -65,7 +65,7 @@ func (m *MonitorApp) previousPage() {
 }
 
 func (m *MonitorApp) setListModeStatus() {
-	m.ui.statusBar.SetText("[#60A5FA]Mode:[white] List | Enter: View details | n: Next page | p: Prev page | r: Retry job | c: Cancel job | q: Quit")
+	m.ui.statusBar.SetText("[#60A5FA]Mode:[white] List | Enter: View details | Ctrl+Q: View queues | n: Next page | p: Prev page | r: Retry job | c: Cancel job | q: Quit")
 }
 
 func (m *MonitorApp) setDetailsModeStatus() {

@@ -12,6 +12,7 @@ func (m *MonitorApp) setupKeyBindings() {
 	m.setupKindFilterKeyBindings()
 	m.setupConfirmationKeyBindings()
 	m.setupJobDetailsKeyBindings()
+	m.setupQueueKeyBindings()
 }
 
 func (m *MonitorApp) setupJobListKeyBindings() {
@@ -25,6 +26,9 @@ func (m *MonitorApp) setupJobListKeyBindings() {
 				m.ui.pages.SwitchToPage(PageDetails)
 				m.setDetailsModeStatus()
 			}
+			return nil
+		case tcell.KeyCtrlQ:
+			m.showQueues()
 			return nil
 		case tcell.KeyRune:
 			if event.Rune() == 'q' {
@@ -150,6 +154,32 @@ func (m *MonitorApp) setupJobDetailsKeyBindings() {
 			}
 			if event.Rune() == 'c' {
 				m.handleJobCancelInDetails()
+				return nil
+			}
+		}
+		return event
+	})
+}
+
+func (m *MonitorApp) setupQueueKeyBindings() {
+	m.ui.queueList.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		switch event.Key() {
+		case tcell.KeyEnter, tcell.KeyEsc:
+			m.ui.pages.SwitchToPage(PageList)
+			m.ui.app.SetFocus(m.ui.jobList)
+			m.setListModeStatus()
+			return nil
+		case tcell.KeyRune:
+			if event.Rune() == 'q' {
+				m.ui.app.Stop()
+				return nil
+			}
+			if event.Rune() == 'p' {
+				m.handleQueuePause()
+				return nil
+			}
+			if event.Rune() == 'r' {
+				m.handleQueueResume()
 				return nil
 			}
 		}

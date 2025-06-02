@@ -18,12 +18,17 @@ func (m *MonitorApp) setupUI() {
 		AddItem(m.ui.jobDetails, 0, 1, true).
 		AddItem(m.ui.statusBar, 1, 0, false)
 
+	queueFlex := tview.NewFlex().SetDirection(tview.FlexRow).
+		AddItem(m.ui.queueList, 0, 1, true).
+		AddItem(m.ui.statusBar, 1, 0, false)
+
 	kindFilterModal := createCenteredModal(m.ui.kindFilterInput, 60, 3)
 	confirmationModalLayout := createCenteredModal(m.ui.confirmationModal, 60, 8)
 
 	// Add pages
 	m.ui.pages.AddPage(PageList, listFlex, true, true)
 	m.ui.pages.AddPage(PageDetails, detailsFlex, true, false)
+	m.ui.pages.AddPage(PageQueues, queueFlex, true, false)
 	m.ui.pages.AddPage(PageKindFilter, kindFilterModal, true, false)
 	m.ui.pages.AddPage(PageConfirmation, confirmationModalLayout, true, false)
 
@@ -45,14 +50,23 @@ func (m *MonitorApp) StartRefreshLoop() {
 	go func() {
 		for {
 			m.ui.app.QueueUpdateDraw(func() {
-				if err := m.updateJobList(); err != nil {
-					m.ui.statusBar.SetText(fmt.Sprintf("Error: %v", err))
-				}
+				pageName, _ := m.ui.pages.GetFrontPage()
 
-				// If we're on the details page and have a current job ID, refresh the details
-				if m.ui.pages.HasPage(PageDetails) {
-					if pageName, _ := m.ui.pages.GetFrontPage(); pageName == PageDetails && m.currentJobID != "" {
+				switch pageName {
+				case PageQueues:
+					// Refresh queue list when on queue page
+					if err := m.updateQueueList(); err != nil {
+						m.ui.statusBar.SetText(fmt.Sprintf("Error: %v", err))
+					}
+				case PageDetails:
+					// Refresh job details when on details page and have a current job ID
+					if m.currentJobID != "" {
 						m.showJobDetails(m.currentJobID)
+					}
+				default:
+					// Default to refreshing job list for other pages
+					if err := m.updateJobList(); err != nil {
+						m.ui.statusBar.SetText(fmt.Sprintf("Error: %v", err))
 					}
 				}
 			})

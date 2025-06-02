@@ -133,7 +133,7 @@ func (m *MonitorApp) pauseQueue(queueName string) {
 	if err != nil {
 		m.ui.statusBar.SetText(fmt.Sprintf("[red]Error pausing queue: %v[white]", err))
 	} else {
-		m.ui.statusBar.SetText(fmt.Sprintf("[green]Queue '%s' paused[white]", queueName))
+		m.setQueueModeStatus()
 		// Refresh queue list
 		if err := m.updateQueueList(); err != nil {
 			m.ui.statusBar.SetText(fmt.Sprintf("Error: %v", err))
@@ -147,7 +147,7 @@ func (m *MonitorApp) resumeQueue(queueName string) {
 	if err != nil {
 		m.ui.statusBar.SetText(fmt.Sprintf("[red]Error resuming queue: %v[white]", err))
 	} else {
-		m.ui.statusBar.SetText(fmt.Sprintf("[green]Queue '%s' resumed[white]", queueName))
+		m.setQueueModeStatus()
 		// Refresh queue list
 		if err := m.updateQueueList(); err != nil {
 			m.ui.statusBar.SetText(fmt.Sprintf("Error: %v", err))

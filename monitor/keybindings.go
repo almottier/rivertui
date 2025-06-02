@@ -164,7 +164,7 @@ func (m *MonitorApp) setupJobDetailsKeyBindings() {
 func (m *MonitorApp) setupQueueKeyBindings() {
 	m.ui.queueList.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
-		case tcell.KeyEnter, tcell.KeyEsc:
+		case tcell.KeyEsc:
 			m.ui.pages.SwitchToPage(PageList)
 			m.ui.app.SetFocus(m.ui.jobList)
 			m.setListModeStatus()

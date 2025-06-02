@@ -88,7 +88,7 @@ func (m *MonitorApp) showQueues() {
 }
 
 func (m *MonitorApp) setQueueModeStatus() {
-	m.ui.statusBar.SetText("[#60A5FA]Mode:[white] Queues | Enter/Esc: Back to jobs | p: Pause queue | r: Resume queue | q: Quit")
+	m.ui.statusBar.SetText("[#60A5FA]Mode:[white] Queues | Esc: Back to jobs | p: Pause queue | r: Resume queue | q: Quit")
 }
 
 // handleQueuePause pauses the selected queue

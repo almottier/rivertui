@@ -1,6 +1,9 @@
 package monitor
 
 import (
+	"os"
+	"strings"
+
 	"github.com/almottier/rivertui/config"
 	"github.com/almottier/rivertui/internal/client"
 	"github.com/gdamore/tcell/v2"
@@ -238,6 +241,15 @@ type MonitorApp struct {
 
 // NewMonitorApp creates a new monitor application
 func NewMonitorApp(cli *client.Client, cfg *config.Config, jobID int64) *MonitorApp {
+	// Set COLORTERM and TERM if not already set
+	if os.Getenv("COLORTERM") == "" {
+		os.Setenv("COLORTERM", "truecolor")
+	}
+	term := os.Getenv("TERM")
+	if term == "" || !strings.Contains(term, "256color") {
+		os.Setenv("TERM", "xterm-256color")
+	}
+
 	ui := newUIComponents()
 
 	monitor := &MonitorApp{

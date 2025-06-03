@@ -244,7 +244,7 @@ type MonitorApp struct {
 }
 
 // NewMonitorApp creates a new monitor application
-func NewMonitorApp(cli *client.Client, cfg *config.Config, jobID int64) *MonitorApp {
+func NewMonitorApp(cli *client.Client, cfg *config.Config, jobID int64, kindFilter string) *MonitorApp {
 	// Set COLORTERM and TERM if not already set
 	if os.Getenv("COLORTERM") == "" {
 		os.Setenv("COLORTERM", "truecolor")
@@ -266,6 +266,11 @@ func NewMonitorApp(cli *client.Client, cfg *config.Config, jobID int64) *Monitor
 		initialJobID:      jobID,
 		lastJobKinds:      make([]string, 0),
 		scrollToBeginning: true,
+	}
+
+	// Set initial kind filter if provided
+	if kindFilter != "" {
+		monitor.filter.SetKindFilter([]string{kindFilter})
 	}
 
 	monitor.setupUI()

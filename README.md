@@ -26,6 +26,7 @@ rivertui
 | `--database-url` | `RIVER_DATABASE_URL` | PostgreSQL connection string | Required |
 | `--refresh` | - | Refresh interval | `1s` |
 | `--job-id` | - | Start in details view for specific job ID | - |
+| `--kind` | - | Start with kind filter applied | - |
 
 ### Example
 
@@ -38,6 +39,9 @@ rivertui --database-url "postgres://localhost:5432/myapp" --refresh 2s
 
 # Start viewing specific job
 rivertui --database-url "postgres://localhost:5432/myapp" --job-id 12345
+
+# Start with kind filter applied
+rivertui --database-url "postgres://localhost:5432/myapp" --kind "SendEmailJob"
 
 # Using environment variable
 export RIVER_DATABASE_URL="postgres://localhost:5432/myapp"

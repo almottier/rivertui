@@ -15,6 +15,7 @@ var (
 	dbURL           string
 	refreshInterval time.Duration
 	jobID           int64
+	kindFilter      string
 	appConfig       *config.Config
 	appClient       *client.Client
 
@@ -46,7 +47,7 @@ var (
 				return fmt.Errorf("failed to initialize client: %w", err)
 			}
 
-			monitor := monitor.NewMonitorApp(appClient, appConfig, jobID)
+			monitor := monitor.NewMonitorApp(appClient, appConfig, jobID, kindFilter)
 			monitor.StartRefreshLoop()
 
 			if err := monitor.Run(); err != nil {
@@ -62,6 +63,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&dbURL, "database-url", "", "PostgreSQL connection string/URL (env: RIVER_DATABASE_URL)")
 	rootCmd.PersistentFlags().DurationVar(&refreshInterval, "refresh", 1*time.Second, "Refresh interval for the monitor")
 	rootCmd.PersistentFlags().Int64Var(&jobID, "job-id", 0, "Job ID to view details for (starts in details view if provided)")
+	rootCmd.PersistentFlags().StringVar(&kindFilter, "kind", "", "Job kind to filter by (starts with kind filter applied if provided)")
 }
 
 func main() {

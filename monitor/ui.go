@@ -6,17 +6,17 @@ import (
 )
 
 func setupAppTheme() {
-	tview.Styles.PrimitiveBackgroundColor = tcell.ColorBlack
-	tview.Styles.ContrastBackgroundColor = tcell.NewRGBColor(30, 41, 59)
-	tview.Styles.MoreContrastBackgroundColor = ColorBackground
-	tview.Styles.BorderColor = ColorBorder
-	tview.Styles.TitleColor = ColorPrimary
-	tview.Styles.GraphicsColor = ColorBorder
-	tview.Styles.PrimaryTextColor = tcell.ColorWhite
-	tview.Styles.SecondaryTextColor = ColorSecondary
-	tview.Styles.TertiaryTextColor = tcell.NewRGBColor(100, 116, 139)
-	tview.Styles.InverseTextColor = tcell.ColorBlack
-	tview.Styles.ContrastSecondaryTextColor = tcell.NewRGBColor(203, 213, 225)
+	tview.Styles.PrimitiveBackgroundColor = primitiveBackground
+	tview.Styles.ContrastBackgroundColor = contrastBackground
+	tview.Styles.MoreContrastBackgroundColor = moreContrastBackground
+	tview.Styles.BorderColor = borderColor
+	tview.Styles.TitleColor = titleColor
+	tview.Styles.GraphicsColor = graphicsColor
+	tview.Styles.PrimaryTextColor = primaryTextColor
+	tview.Styles.SecondaryTextColor = secondaryTextColor
+	tview.Styles.TertiaryTextColor = tertiaryTextColor
+	tview.Styles.InverseTextColor = inverseTextColor
+	tview.Styles.ContrastSecondaryTextColor = contrastSecondaryTextColor
 }
 
 func createJobListTable() *tview.Table {
@@ -26,12 +26,12 @@ func createJobListTable() *tview.Table {
 	table.SetTitle(" 🚀 Jobs ↑/↓")
 	table.SetBorder(true)
 	table.SetBorderPadding(0, 0, 1, 1)
-	table.SetBorderColor(ColorBorder)
-	table.SetTitleColor(ColorPrimary)
-	table.SetBackgroundColor(ColorBackground)
+	table.SetBorderColor(jobListBorder)
+	table.SetTitleColor(jobListTitle)
+	table.SetBackgroundColor(jobListBg)
 	table.SetSelectedStyle(tcell.StyleDefault.
-		Background(tcell.NewRGBColor(30, 58, 138)).
-		Foreground(tcell.ColorWhite))
+		Background(jobListSelectedBg).
+		Foreground(jobListSelectedFg))
 	return table
 }
 
@@ -43,9 +43,9 @@ func createJobDetailsView() *tview.TextView {
 	view.SetTitle(" 📋 Job Details (Enter/Esc to return) ")
 	view.SetBorder(true)
 	view.SetBorderPadding(0, 0, 1, 1)
-	view.SetBorderColor(ColorBorder)
-	view.SetTitleColor(ColorPrimary)
-	view.SetBackgroundColor(ColorBackground)
+	view.SetBorderColor(jobDetailsBorder)
+	view.SetTitleColor(jobDetailsTitle)
+	view.SetBackgroundColor(jobDetailsBg)
 	return view
 }
 
@@ -55,7 +55,7 @@ func createStatusBar() *tview.TextView {
 	bar.SetRegions(true)
 	bar.SetBorder(false)
 	bar.SetBorderPadding(0, 0, 1, 1)
-	bar.SetBackgroundColor(tcell.NewRGBColor(30, 41, 59))
+	bar.SetBackgroundColor(statusBarBg)
 	return bar
 }
 
@@ -65,10 +65,11 @@ func createKindFilterInput() *tview.InputField {
 	input.SetFieldWidth(20)
 	input.SetBorder(true)
 	input.SetTitle(" 🏷️  Kind / ID Filter (Enter: Apply, Esc: Clear) ")
-	input.SetBorderColor(ColorPrimary)
-	input.SetTitleColor(ColorPrimary)
-	input.SetBackgroundColor(ColorBackground)
-	input.SetFieldBackgroundColor(tcell.NewRGBColor(30, 41, 59))
+	input.SetLabelColor(kindFilterLabel)
+	input.SetBorderColor(kindFilterBorder)
+	input.SetTitleColor(kindFilterTitle)
+	input.SetBackgroundColor(kindFilterBg)
+	input.SetFieldBackgroundColor(kindFilterFieldBg)
 	return input
 }
 
@@ -80,9 +81,9 @@ func createConfirmationModal() *tview.TextView {
 	modal.SetTextAlign(tview.AlignCenter)
 	modal.SetBorder(true)
 	modal.SetTitle(" ⚠️  Confirmation ")
-	modal.SetBorderColor(ColorWarning)
-	modal.SetTitleColor(ColorWarning)
-	modal.SetBackgroundColor(ColorBackground)
+	modal.SetBorderColor(confirmationModalBorder)
+	modal.SetTitleColor(confirmationModalTitle)
+	modal.SetBackgroundColor(confirmationModalBg)
 	return modal
 }
 
@@ -103,11 +104,11 @@ func createQueueListTable() *tview.Table {
 	table.SetTitle(" 🔀 Queues ↑/↓")
 	table.SetBorder(true)
 	table.SetBorderPadding(0, 0, 1, 1)
-	table.SetBorderColor(ColorBorder)
-	table.SetTitleColor(ColorPrimary)
-	table.SetBackgroundColor(ColorBackground)
+	table.SetBorderColor(queueListBorder)
+	table.SetTitleColor(queueListTitle)
+	table.SetBackgroundColor(queueListBg)
 	table.SetSelectedStyle(tcell.StyleDefault.
-		Background(tcell.NewRGBColor(30, 58, 138)).
-		Foreground(tcell.ColorWhite))
+		Background(queueListSelectedBg).
+		Foreground(queueListSelectedFg))
 	return table
 }

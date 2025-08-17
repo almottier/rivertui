@@ -6,22 +6,9 @@ import (
 
 	"github.com/almottier/rivertui/config"
 	"github.com/almottier/rivertui/internal/client"
-	"github.com/gdamore/tcell/v2"
 	"github.com/riverqueue/river"
 	"github.com/riverqueue/river/rivertype"
 	"github.com/rivo/tview"
-)
-
-// UI color variables
-var (
-	ColorPrimary    = tcell.NewRGBColor(96, 165, 250)  // Blue-400
-	ColorSecondary  = tcell.NewRGBColor(148, 163, 184) // Slate-400
-	ColorSuccess    = tcell.NewRGBColor(16, 185, 129)  // Emerald-500
-	ColorWarning    = tcell.NewRGBColor(245, 158, 11)  // Amber-500
-	ColorError      = tcell.NewRGBColor(239, 68, 68)   // Red-500
-	ColorInfo       = tcell.NewRGBColor(6, 182, 212)   // Cyan-500
-	ColorBackground = tcell.NewRGBColor(15, 23, 42)    // Dark blue
-	ColorBorder     = tcell.NewRGBColor(71, 85, 105)   // Slate border
 )
 
 // Page names

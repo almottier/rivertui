@@ -83,7 +83,7 @@ func (m *MonitorApp) setTableHeaders() {
 	for i, header := range headers {
 		m.ui.jobList.SetCell(0, i,
 			tview.NewTableCell(header).
-				SetTextColor(jobTableHeaderColor).
+				SetTextColor(ColorTitle).
 				SetAlign(tview.AlignLeft).
 				SetSelectable(false).
 				SetExpansion(1))
@@ -91,59 +91,59 @@ func (m *MonitorApp) setTableHeaders() {
 }
 
 func (m *MonitorApp) addJobToTable(row int, job *rivertype.JobRow) {
-	m.ui.jobList.SetCell(row, 0, tview.NewTableCell(fmt.Sprintf("%d", job.ID)).SetTextColor(jobIDColor))
-	m.ui.jobList.SetCell(row, 1, tview.NewTableCell(job.Kind).SetTextColor(jobKindColor))
+	m.ui.jobList.SetCell(row, 0, tview.NewTableCell(fmt.Sprintf("%d", job.ID)).SetTextColor(ColorSecondary))
+	m.ui.jobList.SetCell(row, 1, tview.NewTableCell(job.Kind).SetTextColor(ColorPrimary))
 
 	// Color the state cell based on job state
 	stateCell := m.createStateCell(job.State)
 	m.ui.jobList.SetCell(row, 2, stateCell)
 
-	m.ui.jobList.SetCell(row, 3, tview.NewTableCell(fmt.Sprintf("%d/%d", job.Attempt, job.MaxAttempts)).SetTextColor(jobAttemptColor))
+	m.ui.jobList.SetCell(row, 3, tview.NewTableCell(fmt.Sprintf("%d/%d", job.Attempt, job.MaxAttempts)).SetTextColor(ColorSecondary))
 
 	// Error count
 	if len(job.Errors) > 0 {
-		m.ui.jobList.SetCell(row, 4, tview.NewTableCell(fmt.Sprintf("%d", len(job.Errors))).SetTextColor(jobErrorCountColor))
+		m.ui.jobList.SetCell(row, 4, tview.NewTableCell(fmt.Sprintf("%d", len(job.Errors))).SetTextColor(ColorError))
 	} else {
-		m.ui.jobList.SetCell(row, 4, tview.NewTableCell("").SetTextColor(jobTimestampColor))
+		m.ui.jobList.SetCell(row, 4, tview.NewTableCell("").SetTextColor(ColorSecondary))
 	}
 
 	// Duration
 	m.setDurationCell(row, job)
 
 	// Time fields
-	m.ui.jobList.SetCell(row, 6, tview.NewTableCell(formatTimeAgo(job.CreatedAt)).SetTextColor(jobTimestampColor))
-	m.ui.jobList.SetCell(row, 7, tview.NewTableCell(formatTimeAgo(job.ScheduledAt)).SetTextColor(jobTimestampColor))
+	m.ui.jobList.SetCell(row, 6, tview.NewTableCell(formatTimeAgo(job.CreatedAt)).SetTextColor(ColorSecondary))
+	m.ui.jobList.SetCell(row, 7, tview.NewTableCell(formatTimeAgo(job.ScheduledAt)).SetTextColor(ColorSecondary))
 	if job.AttemptedAt != nil {
-		m.ui.jobList.SetCell(row, 8, tview.NewTableCell(formatTimeAgo(*job.AttemptedAt)).SetTextColor(jobTimestampColor))
+		m.ui.jobList.SetCell(row, 8, tview.NewTableCell(formatTimeAgo(*job.AttemptedAt)).SetTextColor(ColorSecondary))
 	} else {
-		m.ui.jobList.SetCell(row, 8, tview.NewTableCell("").SetTextColor(jobTimestampColor).SetBackgroundColor(jobTimestampBgColor))
+		m.ui.jobList.SetCell(row, 8, tview.NewTableCell("").SetTextColor(ColorSecondary).SetBackgroundColor(ColorContrastBackground))
 	}
 	if job.FinalizedAt != nil {
-		m.ui.jobList.SetCell(row, 9, tview.NewTableCell(formatTimeAgo(*job.FinalizedAt)).SetTextColor(jobTimestampColor))
+		m.ui.jobList.SetCell(row, 9, tview.NewTableCell(formatTimeAgo(*job.FinalizedAt)).SetTextColor(ColorSecondary))
 	} else {
-		m.ui.jobList.SetCell(row, 9, tview.NewTableCell("").SetTextColor(jobTimestampColor).SetBackgroundColor(jobTimestampBgColor))
+		m.ui.jobList.SetCell(row, 9, tview.NewTableCell("").SetTextColor(ColorSecondary).SetBackgroundColor(ColorContrastBackground))
 	}
 
-	m.ui.jobList.SetCell(row, 10, tview.NewTableCell(job.Queue).SetTextColor(jobQueueColor))
+	m.ui.jobList.SetCell(row, 10, tview.NewTableCell(job.Queue).SetTextColor(ColorTertiary))
 }
 
 func (m *MonitorApp) createStateCell(state rivertype.JobState) *tview.TableCell {
 	stateCell := tview.NewTableCell(string(state))
 	switch state {
 	case rivertype.JobStateAvailable:
-		stateCell.SetTextColor(jobStateAvailableColor)
+		stateCell.SetTextColor(ColorAvailable)
 	case rivertype.JobStateRunning:
-		stateCell.SetTextColor(jobStateRunningColor)
+		stateCell.SetTextColor(ColorInfo)
 	case rivertype.JobStateCompleted:
-		stateCell.SetTextColor(jobStateCompletedColor)
+		stateCell.SetTextColor(ColorSuccess)
 	case rivertype.JobStateDiscarded:
-		stateCell.SetTextColor(jobStateDiscardedColor)
+		stateCell.SetTextColor(ColorError)
 	case rivertype.JobStateCancelled:
-		stateCell.SetTextColor(jobStateCancelledColor)
+		stateCell.SetTextColor(ColorCancelled)
 	case rivertype.JobStateRetryable:
-		stateCell.SetTextColor(jobStateRetryableColor)
+		stateCell.SetTextColor(ColorRetryable)
 	case rivertype.JobStateScheduled:
-		stateCell.SetTextColor(jobStateScheduledColor)
+		stateCell.SetTextColor(ColorScheduled)
 	}
 	return stateCell
 }
@@ -152,12 +152,12 @@ func (m *MonitorApp) setDurationCell(row int, job *rivertype.JobRow) {
 	if job.AttemptedAt != nil {
 		if job.FinalizedAt != nil {
 			duration := job.FinalizedAt.Sub(*job.AttemptedAt)
-			m.ui.jobList.SetCell(row, 5, tview.NewTableCell(formatDuration(duration)).SetTextColor(jobDurationFinalizedColor))
+			m.ui.jobList.SetCell(row, 5, tview.NewTableCell(formatDuration(duration)).SetTextColor(ColorSecondary))
 		} else {
 			duration := time.Since(*job.AttemptedAt)
-			m.ui.jobList.SetCell(row, 5, tview.NewTableCell(formatDuration(duration)).SetTextColor(jobDurationActiveColor))
+			m.ui.jobList.SetCell(row, 5, tview.NewTableCell(formatDuration(duration)).SetTextColor(ColorInfo))
 		}
 	} else {
-		m.ui.jobList.SetCell(row, 5, tview.NewTableCell("").SetTextColor(jobDurationEmptyColor).SetBackgroundColor(jobDurationEmptyBgColor))
+		m.ui.jobList.SetCell(row, 5, tview.NewTableCell("").SetTextColor(ColorSecondary).SetBackgroundColor(ColorContrastBackground))
 	}
 }

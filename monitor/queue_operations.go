@@ -40,7 +40,7 @@ func (m *MonitorApp) setQueueTableHeaders() {
 	for i, header := range headers {
 		m.ui.queueList.SetCell(0, i,
 			tview.NewTableCell(header).
-				SetTextColor(queueTableHeaderColor).
+				SetTextColor(ColorTitle).
 				SetAlign(tview.AlignLeft).
 				SetSelectable(false).
 				SetExpansion(1))
@@ -49,29 +49,29 @@ func (m *MonitorApp) setQueueTableHeaders() {
 
 func (m *MonitorApp) addQueueToTable(row int, queue *rivertype.Queue) {
 	// Queue name
-	m.ui.queueList.SetCell(row, 0, tview.NewTableCell(queue.Name).SetTextColor(queueNameColor))
+	m.ui.queueList.SetCell(row, 0, tview.NewTableCell(queue.Name).SetTextColor(ColorPrimary))
 
 	// Queue state (paused or active)
 	var stateCell *tview.TableCell
 	if queue.PausedAt != nil {
-		stateCell = tview.NewTableCell("PAUSED").SetTextColor(queueStatePausedColor)
+		stateCell = tview.NewTableCell("PAUSED").SetTextColor(ColorCancelled)
 	} else {
-		stateCell = tview.NewTableCell("ACTIVE").SetTextColor(queueStateActiveColor)
+		stateCell = tview.NewTableCell("ACTIVE").SetTextColor(ColorSuccess)
 	}
 	m.ui.queueList.SetCell(row, 1, stateCell)
 
 	// Paused at timestamp
 	if queue.PausedAt != nil {
-		m.ui.queueList.SetCell(row, 2, tview.NewTableCell(formatTimeAgo(*queue.PausedAt)).SetTextColor(queueTimestampColor))
+		m.ui.queueList.SetCell(row, 2, tview.NewTableCell(formatTimeAgo(*queue.PausedAt)).SetTextColor(ColorSecondary))
 	} else {
-		m.ui.queueList.SetCell(row, 2, tview.NewTableCell("").SetTextColor(queueTimestampColor).SetBackgroundColor(queueTimestampBgColor))
+		m.ui.queueList.SetCell(row, 2, tview.NewTableCell("").SetTextColor(ColorSecondary).SetBackgroundColor(ColorContrastBackground))
 	}
 
 	// Created at timestamp
-	m.ui.queueList.SetCell(row, 3, tview.NewTableCell(formatTimeAgo(queue.CreatedAt)).SetTextColor(queueTimestampColor))
+	m.ui.queueList.SetCell(row, 3, tview.NewTableCell(formatTimeAgo(queue.CreatedAt)).SetTextColor(ColorSecondary))
 
 	// Updated at timestamp
-	m.ui.queueList.SetCell(row, 4, tview.NewTableCell(formatTimeAgo(queue.UpdatedAt)).SetTextColor(queueTimestampColor))
+	m.ui.queueList.SetCell(row, 4, tview.NewTableCell(formatTimeAgo(queue.UpdatedAt)).SetTextColor(ColorSecondary))
 }
 
 // showQueues switches to the queue view

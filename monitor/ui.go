@@ -6,17 +6,17 @@ import (
 )
 
 func setupAppTheme() {
-	tview.Styles.PrimitiveBackgroundColor = tcell.ColorBlack
-	tview.Styles.ContrastBackgroundColor = tcell.NewRGBColor(30, 41, 59)
-	tview.Styles.MoreContrastBackgroundColor = ColorBackground
+	tview.Styles.PrimitiveBackgroundColor = ColorPrimativeBackground
+	tview.Styles.ContrastBackgroundColor = ColorContrastBackground
+	tview.Styles.MoreContrastBackgroundColor = ColorMoreContrastBackground
 	tview.Styles.BorderColor = ColorBorder
-	tview.Styles.TitleColor = ColorPrimary
+	tview.Styles.TitleColor = ColorTitle
 	tview.Styles.GraphicsColor = ColorBorder
-	tview.Styles.PrimaryTextColor = tcell.ColorWhite
+	tview.Styles.PrimaryTextColor = ColorPrimary
 	tview.Styles.SecondaryTextColor = ColorSecondary
-	tview.Styles.TertiaryTextColor = tcell.NewRGBColor(100, 116, 139)
-	tview.Styles.InverseTextColor = tcell.ColorBlack
-	tview.Styles.ContrastSecondaryTextColor = tcell.NewRGBColor(203, 213, 225)
+	tview.Styles.TertiaryTextColor = ColorTertiary
+	tview.Styles.InverseTextColor = ColorPrimativeBackground
+	tview.Styles.ContrastSecondaryTextColor = ColorContrastSecondary
 }
 
 func createJobListTable() *tview.Table {
@@ -27,11 +27,11 @@ func createJobListTable() *tview.Table {
 	table.SetBorder(true)
 	table.SetBorderPadding(0, 0, 1, 1)
 	table.SetBorderColor(ColorBorder)
-	table.SetTitleColor(ColorPrimary)
-	table.SetBackgroundColor(ColorBackground)
+	table.SetTitleColor(ColorTitle)
+	table.SetBackgroundColor(ColorContrastBackground)
 	table.SetSelectedStyle(tcell.StyleDefault.
-		Background(tcell.NewRGBColor(30, 58, 138)).
-		Foreground(tcell.ColorWhite))
+		Background(ColorSelectedBg).
+		Foreground(ColorSelectedFg))
 	return table
 }
 
@@ -44,8 +44,8 @@ func createJobDetailsView() *tview.TextView {
 	view.SetBorder(true)
 	view.SetBorderPadding(0, 0, 1, 1)
 	view.SetBorderColor(ColorBorder)
-	view.SetTitleColor(ColorPrimary)
-	view.SetBackgroundColor(ColorBackground)
+	view.SetTitleColor(ColorTitle)
+	view.SetBackgroundColor(ColorContrastBackground)
 	return view
 }
 
@@ -55,7 +55,7 @@ func createStatusBar() *tview.TextView {
 	bar.SetRegions(true)
 	bar.SetBorder(false)
 	bar.SetBorderPadding(0, 0, 1, 1)
-	bar.SetBackgroundColor(tcell.NewRGBColor(30, 41, 59))
+	bar.SetBackgroundColor(ColorContrastBackground)
 	return bar
 }
 
@@ -65,10 +65,11 @@ func createKindFilterInput() *tview.InputField {
 	input.SetFieldWidth(20)
 	input.SetBorder(true)
 	input.SetTitle(" 🏷️  Kind / ID Filter (Enter: Apply, Esc: Clear) ")
-	input.SetBorderColor(ColorPrimary)
-	input.SetTitleColor(ColorPrimary)
-	input.SetBackgroundColor(ColorBackground)
-	input.SetFieldBackgroundColor(tcell.NewRGBColor(30, 41, 59))
+	input.SetLabelColor(ColorTitle)
+	input.SetBorderColor(ColorTitle)
+	input.SetTitleColor(ColorTitle)
+	input.SetBackgroundColor(ColorContrastBackground)
+	input.SetFieldBackgroundColor(ColorContrastBackground)
 	return input
 }
 
@@ -82,7 +83,7 @@ func createConfirmationModal() *tview.TextView {
 	modal.SetTitle(" ⚠️  Confirmation ")
 	modal.SetBorderColor(ColorWarning)
 	modal.SetTitleColor(ColorWarning)
-	modal.SetBackgroundColor(ColorBackground)
+	modal.SetBackgroundColor(ColorContrastBackground)
 	return modal
 }
 
@@ -104,10 +105,10 @@ func createQueueListTable() *tview.Table {
 	table.SetBorder(true)
 	table.SetBorderPadding(0, 0, 1, 1)
 	table.SetBorderColor(ColorBorder)
-	table.SetTitleColor(ColorPrimary)
-	table.SetBackgroundColor(ColorBackground)
+	table.SetTitleColor(ColorTitle)
+	table.SetBackgroundColor(ColorContrastBackground)
 	table.SetSelectedStyle(tcell.StyleDefault.
-		Background(tcell.NewRGBColor(30, 58, 138)).
-		Foreground(tcell.ColorWhite))
+		Background(ColorSelectedBg).
+		Foreground(ColorSelectedFg))
 	return table
 }

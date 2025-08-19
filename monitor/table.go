@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/gdamore/tcell/v2"
 	"github.com/riverqueue/river"
 	"github.com/riverqueue/river/rivertype"
 	"github.com/rivo/tview"
@@ -84,7 +83,7 @@ func (m *MonitorApp) setTableHeaders() {
 	for i, header := range headers {
 		m.ui.jobList.SetCell(0, i,
 			tview.NewTableCell(header).
-				SetTextColor(ColorPrimary).
+				SetTextColor(ColorTitle).
 				SetAlign(tview.AlignLeft).
 				SetSelectable(false).
 				SetExpansion(1))
@@ -93,7 +92,7 @@ func (m *MonitorApp) setTableHeaders() {
 
 func (m *MonitorApp) addJobToTable(row int, job *rivertype.JobRow) {
 	m.ui.jobList.SetCell(row, 0, tview.NewTableCell(fmt.Sprintf("%d", job.ID)).SetTextColor(ColorSecondary))
-	m.ui.jobList.SetCell(row, 1, tview.NewTableCell(job.Kind).SetTextColor(tcell.ColorWhite))
+	m.ui.jobList.SetCell(row, 1, tview.NewTableCell(job.Kind).SetTextColor(ColorPrimary))
 
 	// Color the state cell based on job state
 	stateCell := m.createStateCell(job.State)
@@ -105,7 +104,7 @@ func (m *MonitorApp) addJobToTable(row int, job *rivertype.JobRow) {
 	if len(job.Errors) > 0 {
 		m.ui.jobList.SetCell(row, 4, tview.NewTableCell(fmt.Sprintf("%d", len(job.Errors))).SetTextColor(ColorError))
 	} else {
-		m.ui.jobList.SetCell(row, 4, tview.NewTableCell("").SetTextColor(ColorSecondary).SetBackgroundColor(ColorBackground))
+		m.ui.jobList.SetCell(row, 4, tview.NewTableCell("").SetTextColor(ColorSecondary))
 	}
 
 	// Duration
@@ -117,34 +116,34 @@ func (m *MonitorApp) addJobToTable(row int, job *rivertype.JobRow) {
 	if job.AttemptedAt != nil {
 		m.ui.jobList.SetCell(row, 8, tview.NewTableCell(formatTimeAgo(*job.AttemptedAt)).SetTextColor(ColorSecondary))
 	} else {
-		m.ui.jobList.SetCell(row, 8, tview.NewTableCell("").SetTextColor(ColorSecondary).SetBackgroundColor(ColorBackground))
+		m.ui.jobList.SetCell(row, 8, tview.NewTableCell("").SetTextColor(ColorSecondary).SetBackgroundColor(ColorContrastBackground))
 	}
 	if job.FinalizedAt != nil {
 		m.ui.jobList.SetCell(row, 9, tview.NewTableCell(formatTimeAgo(*job.FinalizedAt)).SetTextColor(ColorSecondary))
 	} else {
-		m.ui.jobList.SetCell(row, 9, tview.NewTableCell("").SetTextColor(ColorSecondary).SetBackgroundColor(ColorBackground))
+		m.ui.jobList.SetCell(row, 9, tview.NewTableCell("").SetTextColor(ColorSecondary).SetBackgroundColor(ColorContrastBackground))
 	}
 
-	m.ui.jobList.SetCell(row, 10, tview.NewTableCell(job.Queue).SetTextColor(tcell.NewRGBColor(100, 116, 139)))
+	m.ui.jobList.SetCell(row, 10, tview.NewTableCell(job.Queue).SetTextColor(ColorTertiary))
 }
 
 func (m *MonitorApp) createStateCell(state rivertype.JobState) *tview.TableCell {
 	stateCell := tview.NewTableCell(string(state))
 	switch state {
 	case rivertype.JobStateAvailable:
-		stateCell.SetTextColor(tcell.NewRGBColor(59, 130, 246)) // Blue-500
+		stateCell.SetTextColor(ColorAvailable)
 	case rivertype.JobStateRunning:
-		stateCell.SetTextColor(ColorInfo) // Cyan-500
+		stateCell.SetTextColor(ColorInfo)
 	case rivertype.JobStateCompleted:
-		stateCell.SetTextColor(ColorSuccess) // Emerald-500
+		stateCell.SetTextColor(ColorSuccess)
 	case rivertype.JobStateDiscarded:
-		stateCell.SetTextColor(ColorError) // Red-500
+		stateCell.SetTextColor(ColorError)
 	case rivertype.JobStateCancelled:
-		stateCell.SetTextColor(ColorWarning) // Amber-500
+		stateCell.SetTextColor(ColorCancelled)
 	case rivertype.JobStateRetryable:
-		stateCell.SetTextColor(tcell.NewRGBColor(139, 92, 246)) // Violet-500
+		stateCell.SetTextColor(ColorRetryable)
 	case rivertype.JobStateScheduled:
-		stateCell.SetTextColor(tcell.NewRGBColor(107, 114, 128)) // Gray-500
+		stateCell.SetTextColor(ColorScheduled)
 	}
 	return stateCell
 }
@@ -159,6 +158,6 @@ func (m *MonitorApp) setDurationCell(row int, job *rivertype.JobRow) {
 			m.ui.jobList.SetCell(row, 5, tview.NewTableCell(formatDuration(duration)).SetTextColor(ColorInfo))
 		}
 	} else {
-		m.ui.jobList.SetCell(row, 5, tview.NewTableCell("").SetTextColor(ColorSecondary).SetBackgroundColor(ColorBackground))
+		m.ui.jobList.SetCell(row, 5, tview.NewTableCell("").SetTextColor(ColorSecondary).SetBackgroundColor(ColorContrastBackground))
 	}
 }

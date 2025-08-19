@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/gdamore/tcell/v2"
 	"github.com/riverqueue/river"
 	"github.com/riverqueue/river/rivertype"
 	"github.com/rivo/tview"
@@ -41,7 +40,7 @@ func (m *MonitorApp) setQueueTableHeaders() {
 	for i, header := range headers {
 		m.ui.queueList.SetCell(0, i,
 			tview.NewTableCell(header).
-				SetTextColor(ColorPrimary).
+				SetTextColor(ColorTitle).
 				SetAlign(tview.AlignLeft).
 				SetSelectable(false).
 				SetExpansion(1))
@@ -50,12 +49,12 @@ func (m *MonitorApp) setQueueTableHeaders() {
 
 func (m *MonitorApp) addQueueToTable(row int, queue *rivertype.Queue) {
 	// Queue name
-	m.ui.queueList.SetCell(row, 0, tview.NewTableCell(queue.Name).SetTextColor(tcell.ColorWhite))
+	m.ui.queueList.SetCell(row, 0, tview.NewTableCell(queue.Name).SetTextColor(ColorPrimary))
 
 	// Queue state (paused or active)
 	var stateCell *tview.TableCell
 	if queue.PausedAt != nil {
-		stateCell = tview.NewTableCell("PAUSED").SetTextColor(ColorWarning)
+		stateCell = tview.NewTableCell("PAUSED").SetTextColor(ColorCancelled)
 	} else {
 		stateCell = tview.NewTableCell("ACTIVE").SetTextColor(ColorSuccess)
 	}
@@ -65,7 +64,7 @@ func (m *MonitorApp) addQueueToTable(row int, queue *rivertype.Queue) {
 	if queue.PausedAt != nil {
 		m.ui.queueList.SetCell(row, 2, tview.NewTableCell(formatTimeAgo(*queue.PausedAt)).SetTextColor(ColorSecondary))
 	} else {
-		m.ui.queueList.SetCell(row, 2, tview.NewTableCell("").SetTextColor(ColorSecondary).SetBackgroundColor(ColorBackground))
+		m.ui.queueList.SetCell(row, 2, tview.NewTableCell("").SetTextColor(ColorSecondary).SetBackgroundColor(ColorContrastBackground))
 	}
 
 	// Created at timestamp
